@@ -227,7 +227,7 @@ function VideoUpload() {
     data.append('file', formData.file);
 
     try {
-      await axios.post('http://localhost:8080/api/v1/videos/upload', data, {
+      await axios.post('http://localhost:8080/api/v1/videos/', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },

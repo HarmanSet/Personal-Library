@@ -8,12 +8,12 @@ function WelcomePage() {
     <div className="flex flex-col items-center justify-center min-h-[80vh] py-8 px-4">
       <div className="text-center welcome-animation max-w-4xl">
         <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-indigo-600 bg-clip-text text-transparent">
-          Welcome to StreamHub
+          Welcome
         </h1>
         <p className="text-xl text-gray-300 mb-8">
           Your personal media streaming platform for videos and music
         </p>
-        
+
         <div className="grid md:grid-cols-3 gap-6 mt-12">
           <Card className="max-w-sm media-card bg-gray-700">
             <div className="flex flex-col items-center">
@@ -33,7 +33,7 @@ function WelcomePage() {
               </Button>
             </div>
           </Card>
-          
+
           <Card className="max-w-sm media-card bg-gray-700">
             <div className="flex flex-col items-center">
               <div className="mb-4 p-4 rounded-full bg-blue-500 bg-opacity-20">
@@ -51,7 +51,7 @@ function WelcomePage() {
               </Button>
             </div>
           </Card>
-          
+
           <Card className="max-w-sm media-card bg-gray-700">
             <div className="flex flex-col items-center">
               <div className="mb-4 p-4 rounded-full bg-green-500 bg-opacity-20">
