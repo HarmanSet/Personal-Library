@@ -13,11 +13,10 @@ export default function App() {
     <Router>
       <div className="App">
         <Navbar fluid rounded className="shadow-md bg-white">
-          <NavbarBrand>
-            <Link to="/" className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-              Media Library
-            </Link>
+          <NavbarBrand href="/" className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+            Media Library
           </NavbarBrand>
+
           <NavbarToggle />
           <NavbarCollapse>
             <NavbarLink>
