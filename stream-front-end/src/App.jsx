@@ -13,27 +13,37 @@ function App() {
     <Router>
       <div className="App">
         <Navbar fluid rounded className="shadow-md bg-white">
-          <Navbar.Brand as={Link} to="/">
-            <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+          <Navbar.Brand>
+            <Link to="/" className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
               Media Library
-            </span>
+            </Link>
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
-            <Navbar.Link as={Link} to="/" active={window.location.pathname === "/"}>
-              Home
+            <Navbar.Link>
+              <Link to="/" className={window.location.pathname === "/" ? "text-blue-700" : ""}>
+                Home
+              </Link>
             </Navbar.Link>
-            <Navbar.Link as={Link} to="/videos" active={window.location.pathname === "/videos"}>
-              Videos
+            <Navbar.Link>
+              <Link to="/videos" className={window.location.pathname === "/videos" ? "text-blue-700" : ""}>
+                Videos
+              </Link>
             </Navbar.Link>
-            <Navbar.Link as={Link} to="/audio" active={window.location.pathname === "/audio"}>
-              Audio
+            <Navbar.Link>
+              <Link to="/audio" className={window.location.pathname === "/audio" ? "text-blue-700" : ""}>
+                Audio
+              </Link>
             </Navbar.Link>
-            <Navbar.Link as={Link} to="/documents" active={window.location.pathname === "/documents"}>
-              Documents
+            <Navbar.Link>
+              <Link to="/documents" className={window.location.pathname === "/documents" ? "text-blue-700" : ""}>
+                Documents
+              </Link>
             </Navbar.Link>
-            <Navbar.Link as={Link} to="/upload" active={window.location.pathname === "/upload"}>
-              Upload
+            <Navbar.Link>
+              <Link to="/upload" className={window.location.pathname === "/upload" ? "text-blue-700" : ""}>
+                Upload
+              </Link>
             </Navbar.Link>
           </Navbar.Collapse>
         </Navbar>
