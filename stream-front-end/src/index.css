@@ -138,3 +138,35 @@
   background-color: #10B981;
   transition: width 0.1s ease;
 }
+
+.bar {
+  width: 6px;
+  height: 20px;
+  background-color: #4f46e5; /* Indigo-600 */
+  border-radius: 4px;
+  opacity: 0.8;
+  transition: height 0.3s ease;
+}
+
+/* Only animate when music is playing */
+.bar.animate {
+  animation: bounceBar 1s infinite ease-in-out;
+}
+
+@keyframes bounceBar {
+  0% {
+    height: 20px;
+  }
+  25% {
+    height: 30px;
+  }
+  50% {
+    height: 12px;
+  }
+  75% {
+    height: 35px;
+  }
+  100% {
+    height: 20px;
+  }
+}

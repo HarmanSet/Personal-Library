@@ -10,7 +10,7 @@ function WelcomePage() {
         <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-indigo-600 bg-clip-text text-transparent">
           Welcome
         </h1>
-        <p className="text-xl text-gray-300 mb-8">
+        <p className="text-xl text-gray-500 mb-8">
           Your personal media streaming platform for videos and music
         </p>
 

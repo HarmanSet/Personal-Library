@@ -231,7 +231,7 @@ const DocumentLibrary = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-3xl text-gray-700 font-bold mb-6">📄 PDF Document Library</h1>
+      <h1 className="text-3xl text-gray-700 font-bold mb-6">📄 Document Library</h1>
 
       {loading ? (
         <div className="flex justify-center items-center h-96">

@@ -6,6 +6,8 @@ function AudioPlayer({ audio }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(1); // volume range is 0.0 - 1.0
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -14,6 +16,7 @@ function AudioPlayer({ audio }) {
       setCurrentTime(0);
       setDuration(0);
       setIsLoading(true);
+      audioRef.current.volume = volume;
     }
   }, [audio]);
 
@@ -57,10 +60,35 @@ function AudioPlayer({ audio }) {
 
   const formatTime = (timeInSeconds) => {
     if (isNaN(timeInSeconds)) return '0:00';
-    
+
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = Math.floor(timeInSeconds % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+
+  const skipTime = 5; // seconds
+
+  const handleSkip = (direction) => {
+    if (audioRef.current) {
+      const newTime =
+        direction === 'forward'
+          ? Math.min(audioRef.current.currentTime + skipTime, duration)
+          : Math.max(audioRef.current.currentTime - skipTime, 0);
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+    }
+  };
+
+  const handleVolumeChange = (e) => {
+    const vol = parseFloat(e.target.value);
+    setVolume(vol);
+    if (audioRef.current) {
+      audioRef.current.volume = vol;
+    }
+  };
+
+  const toggleMute = () => {
+    setIsMuted((prevState) => !prevState);
   };
 
   return (
@@ -90,25 +118,78 @@ function AudioPlayer({ audio }) {
               </div>
             ) : (
               <>
-                <div className="flex items-center justify-center mb-4">
-                  <Button
-                    color="blue"
-                    pill
-                    size="lg"
-                    onClick={togglePlay}
-                    className="focus:ring-4 focus:ring-blue-300"
-                  >
-                    {isPlaying ? (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <div className="flex items-center justify-between mb-4">
+
+                  <div className="flex items-center justify-start w-1/3 space-x-1 ml-2">
+                    {[...Array(5)].map((_, i) => (
+                      <div
+                        key={i}
+                        className={`bar ${isPlaying ? 'animate' : ''}`}
+                        style={{ animationDelay: `${i * 0.1}s` }}
+                      ></div>
+                    ))}
+                  </div>
+
+
+                  <div className="flex items-center justify-center space-x-4 w-1/3">
+                    <Button
+                      color="gray"
+                      pill
+                      size="lg"
+                      onClick={() => handleSkip('backward')}
+                      className="focus:ring-4 focus:ring-blue-300 flex items-center"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7M20 19l-7-7 7-7" />
                       </svg>
-                    ) : (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      5s
+                    </Button>
+
+                    <Button
+                      color="blue"
+                      pill
+                      size="lg"
+                      onClick={togglePlay}
+                      className="focus:ring-4 focus:ring-blue-300"
+                    >
+                      {isPlaying ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      )}
+                    </Button>
+
+                    <Button
+                      color="gray"
+                      pill
+                      size="lg"
+                      onClick={() => handleSkip('forward')}
+                      className="focus:ring-4 focus:ring-blue-300 flex items-center"
+                    >
+                      5s
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M4 5l7 7-7 7" />
                       </svg>
-                    )}
-                  </Button>
+                    </Button>
+                  </div>
+
+                  <div className="flex items-center justify-end space-x-2 w-1/3">
+
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value={volume}
+                      onChange={handleVolumeChange}
+                      className="w-24 h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer"
+                    />
+                  </div>
                 </div>
 
                 <div className="mb-2">
@@ -155,7 +236,7 @@ function AudioPlayer({ audio }) {
           </Button>
         </div>
       </div>
-    </Card>
+    </Card >
   );
 }
 
