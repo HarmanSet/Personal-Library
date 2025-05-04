@@ -1,52 +1,41 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
-import { Button } from 'flowbite-react';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Navbar, NavbarBrand, NavbarCollapse, NavbarToggle } from "flowbite-react";
 import VideoLibrary from './components/VideoLibrary';
 import VideoUpload from './components/VideoUpload';
 import AudioLibrary from './components/AudioLibrary';
 import DocumentLibrary from './components/DocumentLibrary';
-import WelcomePage from './components/WelcomePage'; // Import the WelcomePage
+import WelcomePage from './components/WelcomePage';
+
+function AppNavbar() {
+  const location = useLocation();
+
+  const linkClass = (path) =>
+    `block py-2 pl-3 pr-4 md:p-0 border-b border-gray-100 text-gray-700 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 ${location.pathname === path ? "text-blue-700" : ""}`;
+
+  return (
+    <Navbar fluid rounded className="shadow-md bg-white">
+      <NavbarBrand href="/" className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+        Media Library
+      </NavbarBrand>
+
+      <NavbarToggle />
+      <NavbarCollapse>
+        <Link to="/" className={linkClass("/")}>Home</Link>
+        <Link to="/videos" className={linkClass("/videos")}>Videos</Link>
+        <Link to="/audio" className={linkClass("/audio")}>Audio</Link>
+        <Link to="/documents" className={linkClass("/documents")}>Documents</Link>
+        <Link to="/upload" className={linkClass("/upload")}>Upload</Link>
+      </NavbarCollapse>
+    </Navbar>
+  );
+}
 
 export default function App() {
   return (
     <Router>
       <div className="App">
-        <Navbar fluid rounded className="shadow-md bg-white">
-          <NavbarBrand href="/" className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-            Media Library
-          </NavbarBrand>
-
-          <NavbarToggle />
-          <NavbarCollapse>
-            <NavbarLink>
-              <Link to="/" className={window.location.pathname === "/" ? "text-blue-700" : ""}>
-                Home
-              </Link>
-            </NavbarLink>
-            <NavbarLink>
-              <Link to="/videos" className={window.location.pathname === "/videos" ? "text-blue-700" : ""}>
-                Videos
-              </Link>
-            </NavbarLink>
-            <NavbarLink>
-              <Link to="/audio" className={window.location.pathname === "/audio" ? "text-blue-700" : ""}>
-                Audio
-              </Link>
-            </NavbarLink>
-            <NavbarLink>
-              <Link to="/documents" className={window.location.pathname === "/documents" ? "text-blue-700" : ""}>
-                Documents
-              </Link>
-            </NavbarLink>
-            <NavbarLink>
-              <Link to="/upload" className={window.location.pathname === "/upload" ? "text-blue-700" : ""}>
-                Upload
-              </Link>
-            </NavbarLink>
-          </NavbarCollapse>
-        </Navbar>
-
+        <AppNavbar />
         <main className="bg-gray-50 min-h-screen">
           <Routes>
             <Route path="/" element={<WelcomePage />} />
