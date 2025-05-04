@@ -68,7 +68,7 @@ function VideoPlayer({ video }) {
     return null;
   }
 
-  const videoUrl = `http://localhost:8080/api/v1/videos/stream/${video.id}`;
+  const videoUrl = `http://localhost:8080/api/v1/videos/stream/${video.videoId}`;
   
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -86,14 +86,14 @@ function VideoPlayer({ video }) {
       </div>
       
       <div className="p-4">
-        <h2 className="text-xl font-bold mb-2">{video.title}</h2>
-        <div className="flex items-center text-sm text-gray-500 mb-4">
+        <h2 className="text-xl text-black font-bold mb-2">{video.title}</h2>
+        {/* <div className="flex items-center text-sm text-gray-500 mb-4">
           <span>Uploaded on {new Date(video.uploadDate).toLocaleDateString()}</span>
-        </div>
+        </div> */}
         
         {video.description && (
           <div className="mb-4">
-            <h3 className="text-lg font-semibold mb-2">Description</h3>
+            <h3 className="text-lg text-gray-900 font-semibold mb-2">Description</h3>
             <p className="text-gray-700">{video.description}</p>
           </div>
         )}

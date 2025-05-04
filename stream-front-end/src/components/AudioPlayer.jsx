@@ -21,7 +21,7 @@ function AudioPlayer({ audio }) {
     return null;
   }
 
-  const audioUrl = `http://localhost:8080/api/v1/videos/stream/${audio.id}`;
+  const audioUrl = `http://localhost:8080/api/v1/videos/stream/${audio.videoId}`;
 
   const handleTimeUpdate = () => {
     if (audioRef.current) {
@@ -67,9 +67,9 @@ function AudioPlayer({ audio }) {
     <Card className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="p-4">
         <h2 className="text-xl font-bold mb-2">{audio.title}</h2>
-        <div className="flex items-center text-sm text-gray-500 mb-4">
+        {/* <div className="flex items-center text-sm text-gray-500 mb-4">
           <span>Uploaded on {new Date(audio.uploadDate).toLocaleDateString()}</span>
-        </div>
+        </div> */}
 
         <div className="mt-4">
           <div className="bg-gray-100 rounded-lg p-4">
@@ -133,8 +133,8 @@ function AudioPlayer({ audio }) {
 
         {audio.description && (
           <div className="mt-4">
-            <h3 className="text-lg font-semibold mb-2">Description</h3>
-            <p className="text-gray-700">{audio.description}</p>
+            <h3 className="text-lg font-semibold mb-2">Song</h3>
+            <p className="text-gray-400">{audio.description}</p>
           </div>
         )}
 

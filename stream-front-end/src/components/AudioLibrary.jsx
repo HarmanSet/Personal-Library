@@ -18,12 +18,12 @@ function AudioLibrary() {
     try {
       const response = await axios.get('http://localhost:8080/api/v1/videos/type/audio');
       setAudioFiles(response.data);
-      
+
       // Set the first audio file as selected if available and no audio is currently selected
       if (response.data.length > 0 && !selectedAudio) {
         setSelectedAudio(response.data[0]);
       }
-      
+
       setLoading(false);
     } catch (error) {
       console.error('Error fetching audio files:', error);
@@ -31,25 +31,48 @@ function AudioLibrary() {
     }
   };
 
+  // const handleSearch = async () => {
+  //   if (!searchQuery.trim()) {
+  //     fetchAudioFiles();
+  //     return;
+  //   }
+
+  //   setIsSearching(true);
+  //   try {
+  //     const response = await axios.get(`http://localhost:8080/api/v1/videos/search?title=${searchQuery}&fileType=audio`);
+  //     setAudioFiles(response.data);
+
+  //     // Set the first audio file as selected if available
+  //     if (response.data.length > 0) {
+  //       setSelectedAudio(response.data[0]);
+  //     } else {
+  //       setSelectedAudio(null);
+  //     }
+
+  //     setIsSearching(false);
+  //   } catch (error) {
+  //     console.error('Error searching audio files:', error);
+  //     setIsSearching(false);
+  //   }
+  // };
+
   const handleSearch = async () => {
     if (!searchQuery.trim()) {
       fetchAudioFiles();
       return;
     }
-    
+
     setIsSearching(true);
     try {
       const response = await axios.get(`http://localhost:8080/api/v1/videos/search?title=${searchQuery}&fileType=audio`);
+
       setAudioFiles(response.data);
-      
-      // Set the first audio file as selected if available
+      // setSelectedAudio(null);
       if (response.data.length > 0) {
         setSelectedAudio(response.data[0]);
       } else {
         setSelectedAudio(null);
       }
-      
-      setIsSearching(false);
     } catch (error) {
       console.error('Error searching audio files:', error);
       setIsSearching(false);
@@ -63,7 +86,7 @@ function AudioLibrary() {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6 text-center">Audio Library</h1>
-      
+
       <div className="mb-6 flex">
         <div className="search-container flex-grow">
           <TextInput
@@ -72,7 +95,9 @@ function AudioLibrary() {
             placeholder="Search audio files..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleSearch();
+            }}
           />
         </div>
         <div className="ml-2">
@@ -103,7 +128,7 @@ function AudioLibrary() {
         <div className="col-span-1">
           <div className="h-96 overflow-y-auto bg-gray-50 rounded-lg p-4">
             <h2 className="text-xl font-semibold mb-4">Audio List</h2>
-            
+
             {loading ? (
               <div className="flex justify-center items-center h-64">
                 <Spinner size="xl" />
@@ -113,7 +138,7 @@ function AudioLibrary() {
             ) : (
               <div className="space-y-3">
                 {audioFiles.map((audio) => (
-                  <Card key={audio.id} className={`cursor-pointer hover:bg-gray-100 ${selectedAudio && selectedAudio.id === audio.id ? 'border-blue-500 border-2' : ''}`} onClick={() => playAudio(audio)}>
+                  <Card key={audio.videoId} className={`cursor-pointer hover:bg-gray-100 hover:text-black ${selectedAudio && selectedAudio.videoId === audio.videoId ? 'border-blue-500 border-2' : ''}`} onClick={() => playAudio(audio)}>
                     <div className="flex items-center">
                       <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -123,7 +148,7 @@ function AudioLibrary() {
                       <div className="ml-4">
                         <h3 className="text-sm font-medium truncate">{audio.title}</h3>
                         <div className="flex items-center text-xs text-gray-500">
-                          <span>{new Date(audio.uploadDate).toLocaleDateString()}</span>
+                          <h2>{audio.description}</h2>
                         </div>
                       </div>
                     </div>
