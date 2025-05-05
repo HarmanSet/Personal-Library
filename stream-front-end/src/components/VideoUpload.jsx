@@ -113,7 +113,7 @@ function VideoUpload() {
               name="title"
               value={formData.title}
               onChange={handleInputChange}
-              placeholder="Enter media title"
+              placeholder="Enter media title / Artist Name"
               required
             />
           </div>
@@ -127,7 +127,7 @@ function VideoUpload() {
               name="description"
               value={formData.description}
               onChange={handleInputChange}
-              placeholder="Enter media description (optional)"
+              placeholder="Enter media description / Song Name"
               rows={4}
             />
           </div>
